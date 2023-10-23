@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: finetune-llama
+spec:
+  accessModes:
+  - ReadWriteMany
+  capacity:
+    storage: 10Pi
+  csi:
+    driver: csi.juicefs.com
+    fsType: ext4
+    nodePublishSecretRef:
+      name: juicefs-secret
+      namespace: demo
+    volumeAttributes:
+      capacity: "11258999068426240"
+      storage.kubernetes.io/csiProvisionerIdentity: 1697627328259-8081-csi.juicefs.com
+      subPath: finetune-llama
+    volumeHandle: finetune-llama
+  mountOptions:
+  - cache-group=jfscache
+  - no-sharing
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: juicefs-sc
+  volumeMode: Filesystem
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    volume.beta.kubernetes.io/storage-provisioner: csi.juicefs.com
+    volume.kubernetes.io/storage-provisioner: csi.juicefs.com
+  name: finetune-llama-pvc
+  namespace: demo
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Pi
+  storageClassName: juicefs-sc
+  volumeMode: Filesystem
