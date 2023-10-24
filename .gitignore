@@ -15,4 +15,6 @@ todo.txt
 .vscode
 venv
 k8s
+config
 .DS_Store
+Dockerfile.DP
