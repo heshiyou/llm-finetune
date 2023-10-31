@@ -26,9 +26,13 @@ spec:
           - "--data_path=/data/datasets/code_alpaca_20k.json"
           - "--output_dir=/data/output/checkpoint"
           - "--val_set_size=2000"
+          - "--wandb_project=llama2"
+          - "--wandb_run_name=test-llama2-finetune"
+          - "--wandb_watch=false" 
+          - "--wandb_log_model=true"
         env:
-        - name: WANDB_DISABLED
-          value: 'false'
+        - name: WANDB_API_KEY
+          value: '7c0bce62a9099f221976712486bd888ad7c0553f'
         imagePullPolicy: Always
         name: finetune
         resources:
