@@ -12,8 +12,13 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /workspace
 COPY requirements.txt requirements.txt
-RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.10 \
-    && python3.10 -m pip install -r requirements.txt 
+COPY get-pip.py get-pip.py
+# RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.10 \
+#    && python3.10 -m pip install -r requirements.txt 
+RUN python3.10 get-pip.py \
+    && python3.10 -m pip config set global.index-url mirrors.aliyun.com/pypi/simple \
+    && python3.10 -m pip config set install.trusted-host mirrors.aliyun.com \
+    && python3.10 -m pip install -r requirements.txt
 
 RUN python3.10 -m pip install numpy --pre torch --force-reinstall --index-url https://download.pytorch.org/whl/nightly/cu118
 
